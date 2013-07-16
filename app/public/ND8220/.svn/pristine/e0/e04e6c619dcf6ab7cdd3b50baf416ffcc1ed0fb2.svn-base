@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>ND8220 Tester</title>
+	<link rel="stylesheet" href="stylesheet.css" >
+</head>
+<body>
+	<div class='header'>NVR Settings</div>
+	<div id ='add_camera'></div>
+	<button id ='add_camera'>SET Add Camera</button>
+	<button id ='get_add_camera'>GET Add Camera</button>
+	<div id ='recording_settings'></div>
+	<button id ='recording_settings'>SET Recording Settings</button>
+	<button id ='get_recording_settings'>GET Recording Settings</button>
+	<div id ='storage_settings'></div>
+	<button id ='storage_settings'>Storage Settings</button>
+
+	<div id ='volume_settings'></div>
+	<button id ='get_volume_settings'>GET Volume Settings</button>
+	
+
+	<script src="jquery-1.9.1.min.js"></script>
+	<script src="jquery.fixture.js"></script>
+	<script src="test.js"></script>
+	
+	
+	<script>
+		$('#layout').load('layout.html');
+		$('#add_camera').load("add_camera.html");
+		$('#recording_settings').load("recording_settings.html");
+		$('#storage_settings').load("storage_settings.html");
+		$('#volume_settings').load("volume_settings.html");
+
+	</script>
+</body>
+</html>

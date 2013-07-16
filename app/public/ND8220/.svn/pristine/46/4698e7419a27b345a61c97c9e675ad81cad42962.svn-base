@@ -1,0 +1,13 @@
+<div class='sub_header'>NVR Storage Settings</div>
+<form id='storage_settings'>
+	<ul>
+		<li>
+			<input  name="backup" id="backup" type="checkbox" />
+			<label  style="min-width: 200px;display: inline-block" for="backup">Backup my video
+				<span style="color:red;">*To backup, you need least 2 disks.</span></label>
+
+		</li>
+	</ul>
+	<div id='content'></div>
+</form>
+	

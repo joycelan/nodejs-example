@@ -1,0 +1,324 @@
+# default get: 6
+# default set: 6
+- name: security_user_i0_pass
+  default: ""
+  value: password[64]
+#
+- name: system_restore
+  value: "0~"
+  get: 7
+  comment: command
+- name: system_reset
+  value: "0~"
+  get: 7
+  comment: command
+- name: system_timezoneindex
+  value: "-489~529"
+  default: null
+- name: system_daylight_enable
+  value: boolean
+  default: 0
+- name: system_ntp
+  value:
+    - domain name
+    - ip address
+    - ''
+  default: ''
+- name: system_updateinterval
+  value:
+    - 0
+    - 3600
+    - 86400
+    - 604800
+    - 2592000
+  default: 0
+#
+- name: system_info_serialnumber
+  value: mac address
+  default: ''
+  get: 0
+  set: 7
+- name: system_info_firmwareversion
+  value: string[40]
+  default: ''
+  get: 0
+  set: 7
+- name: system_info_extendedmodelname
+  value: string[40]
+  default: ''
+  get: 0
+  set: 7
+#
+- name: network_ipaddress
+  value: ip address
+  default: null
+- name: network_subnet
+  value: ip address
+  default: ''
+- name: network_router
+  value: ip address
+  default: ''
+- name: network_dns1
+  value: ip address
+  default: ''
+- name: network_dns2
+  value: ip address
+  default: ''
+- name: network_resetip
+  value: boolean
+  default: 1
+  comment:
+    1: get ip, subnet, router, dns, from DHCP
+    0: use preset
+- name: network_http_port
+  value:
+    - 80
+    - 1025~65535
+  default: 80
+#
+- name: network_http_alternateport
+  value: 1025~65535
+  default: 8080
+- name: network_http_authmode
+  value:
+    - basic
+    - digest
+  default: basic
+  get: 1
+- name: network_https_port
+  value: 
+    - 554
+    - 1025~65535
+#
+- name: network_rtsp_port
+  value:
+    - 554
+    - 1025~65535
+  default: 554
+  get: 1
+- name: network_rtsp_authmode
+  value:
+    - disable
+    - basic
+    - digest
+  default: disable
+  get: 1
+#
+- name: upnpportforwarding_enable
+  value: boolean
+  default: 0
+- name: upnpportforwarding_upnpnatstatus
+  value: 0~3
+  default: 0
+  set: 7
+  comment:
+    0: OK
+    1: FAIL
+    2: no IGD router
+    3: no need for port forwarding
+#
+- name: ddns_enable
+  value: boolean
+  default: 0
+- name: ddns_alarm_passwordkey
+  value: string[64]
+  default: ''
+- name: ddns_update
+  value: string[128]
+  default: /api/video_dns.asp
+- name: di_i<0~ndi>_normalstate
+  value:
+    - high
+    - low
+  default: high
+  get: 1
+  set: 1
+#
+- name: di_i<0~ndi>_realstate
+  value: [0, 1]
+  default: 0
+  get: 1
+  set: 7
+- name: di_i<0~ndi>_activestate
+  value:
+    - rising
+    - falling
+    - risingorfalling
+    - high
+  default: rising
+  get: 1
+  set: 1
+- name: di_i<0~ndi>_status
+  value:
+    - high
+    - low
+  default: high
+  get: 1
+  set: 7
+#
+- name: camera_c<0~ncam>_ip
+  value: string[128]
+  default: ''
+  set: 7
+  comment: readonly, use camera_update.cgi?
+- name: camera_c<0~ncam>_port
+  value: 0~65535
+  default: 80
+  set: 7
+  comment: readonly, use camera_update.cgi?
+- name: camera_c<0~ncam>_username
+  value: string[128]
+  default: ''
+  set: 7
+  comment:
+    - readonly, use camera_update.cgi?
+    - password?
+- name: camera_c<0~ncam>_channel
+  value: string[128]
+  default: ''
+  set: 7
+  comment:
+    - readonly, use camera_update.cgi?
+    - only needed for video server?
+#
+- name: camera_c<0~ncam>_recording_streamindex
+  value: 0~3
+  default: 0
+- name: camera_c<0~ncam>_recording_type
+  value:
+    - continuous
+    - event
+  default: continuous
+- name: camera_c<0~ncam>_recording_type
+  value:
+    - continuous
+    - event
+  default: continuous
+- name: camera_c<0~ncam>_recording_preevent
+  value: 1~20
+  default: 5
+- name: camera_c<0~ncam>_recording_postevent
+  value: 1~300
+  default: 20
+- name: camera_c<0~ncam>_recording_audio
+  value: boolean
+  default: 1
+- name: camera_c<0~ncam>_recording_reserverd_days
+  value: 0~180
+  default: 7
+- name: camera_c<0~ncam>_recording_schedule_weekday
+  value: 0~127
+  default: 127
+  comment:
+    LSB: bit0
+    bit0: Saturday
+    bit1: Friday
+    bit2: Thursday
+    bit3: Wednesday
+    bit4: Tuesday
+    bit5: Monday
+    bit7: Sunday
+- name: camera_c<0~ncam>_recording_schedule_begintime
+  value: hh:mm
+  default: 00:00
+- name: camera_c<0~ncam>_recording_schedule_endtime
+  value: hh:mm
+  default: 24:00
+  comment: 00:00~24:00 indicates schedule always on
+#
+- name: storage_number
+  value: 1~ndisk
+  default: 1
+  set: 7
+- name: storage_disk_d<0~ndisk>_status
+  value:
+    - new
+    - online
+    - mismatch
+    - disabled
+    - unconnected
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_model
+  value: string[64]
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_modelfamily
+  value: string[64]
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_serialnumber
+  value: string[64]
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_firmwareversion
+  value: string[64]
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_capacity
+  value: float
+  default: null
+  set: 7
+  comment: in GB, accurate to the 1st decimal
+- name: storage_disk_d<0~ndisk>_lastcheck_type
+  value:
+    - badblock
+    - short
+    - long
+    - ''
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_lastcheck_time
+  value:
+    - string
+    - ''
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_lastcheck_result
+  value:
+    - pass
+    - fail
+    - aborted
+    - ''
+  default: null
+  set: 7
+- name: storage_disk_d<0~ndisk>_smart_result
+  value:
+    - pass
+    - warning
+    - ''
+  default: null
+  set: 7
+#
+- name: storage_volume_v<0~nvol>_status
+  value:
+    - new
+    - online
+    - offline
+    - processing
+    - disabled
+    - error
+  default: null
+  set: 7
+- name: storage_volume_v<0~nvol>_type
+  value:
+    - single
+    - raid1
+    - ''
+  default: null
+  set: 7
+- name: storage_volume_v<0~nvol>_disk
+  value: string
+  default: null
+  set: 7
+  comment: comma separted strings in one line
+- name: storage_volume_v<0~nvol>_totalsize
+  value: float
+  default: null
+  set: 7
+  comment: in GB, accurate to the 1st decimal
+- name: storage_volume_v<0~nvol>_availablesize
+  value: float
+  default: null
+  set: 7
+  comment: in GB, accurate to the 1st decimal

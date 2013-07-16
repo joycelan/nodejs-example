@@ -1,0 +1,38 @@
+<div class='sub_header'>NVR Recording Settings</div>
+
+<label  style="min-width: 200px;display: inline-block" for="select_camera">Select Camera</label>
+<select name="select_camera" id="select_camera">
+	<option value="camera_c0_recording">Camera 0</option>
+	<option value="camera_c1_recording">Camera 1</option>
+	<option value="camera_c2_recording">Camera 2</option>
+	<option value="camera_c3_recording">Camera 3</option>
+</select>
+<form id='recording_settings'>
+	<ul>
+		<li>
+			<label  style="min-width: 200px;display: inline-block" for="preevent">Pre event time</label>
+			<select name="preevent" id="preevent">
+				<option value="15">15 Seconds</option>
+				<option value="20">20 Seconds</option>
+				<option value="25">25 Seconds</option>
+				<option value="30">30 Seconds</option>
+			</select>
+		</li>
+		<li>
+			<label  style="min-width: 200px;display: inline-block" for="postevent">Post event time</label>
+			<select name="postevent" id="postevent">
+				<option value="15">15 Seconds</option>
+				<option value="20">20 Seconds</option>
+				<option value="25">25 Seconds</option>
+				<option value="30">30 Seconds</option>
+			</select>
+		</li>
+		<li>
+			<label  style="min-width: 200px;display: inline-block" for="reserved_days">Keep video up to Days</label>
+			<input style="width: 30px;" name="reserved_days"  id="reserved_days" type="text" maxLength="3" value="90"/>
+			<span style="color:red;">Max 180 Days</span>
+		</li>
+	</ul>
+	<div id='content'></div>
+</form>
+	

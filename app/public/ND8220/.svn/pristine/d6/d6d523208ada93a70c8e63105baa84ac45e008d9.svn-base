@@ -1,0 +1,149 @@
+<div class='sub_header'>NVR Volume Settings</div>
+<form id='volume_settings'>
+	<table>
+		<tr>
+			<td>
+			<label  style="display: inline-block">
+				<span style="margin-left:20px;margin-right:20px">VOLUME TYPE</span>
+				
+			</label>
+			</td>
+			<td><span>CREATE</span></td>
+		</tr>
+		<tr>	
+			<td>
+				<label  style="display: inline-block">
+				<span style="margin-left:20px;margin-right:20px">SINGLE</span>
+			</td>
+			<td>
+				<select name="disk" id="disk">
+					<option value="1">disk 1</option>
+					<option value="2">disk 2</option>
+				</select>
+				<select name="volume" id="volume">
+					<option value="0">volume 0</option>
+					<option value="1">volume 1</option>
+				</select>
+			</td>
+			<td>
+				<input id ='single' type="button" value="SINGLE" />		
+			</td>
+			<tr>	
+			<td>
+				<label  style="display: inline-block">
+				<span style="margin-left:20px;margin-right:120px">RAID</span>
+			</td>
+		
+			<td>
+				<input id ='raid_1' type="button" value="RAID 1" style="width: 50px;"/>		
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+			<label  style="display: inline-block">
+				<span style="margin-left:20px;margin-right:20px">VOLUME TYPE</span>
+				
+			</label>
+			</td>
+			<td>
+				<span>DELETE</span>
+			</td>
+		</tr>
+		<tr>	
+			<td>
+				<label  style="display: inline-block">
+				<span style="margin-left:20px;margin-right:20px">VOLUME 0</span>
+			</td>
+					<td>
+<div id ='volume_0' type="text" value="0" /></div>	
+				</td>	
+			<td>
+				
+				<input id ='delete_0' type="button" value="delete volume 0" />		
+			</td>
+			
+		
+		</tr>
+				<tr>	
+			<td>
+				<label  style="display: inline-block">
+				<span style="margin-left:20px;margin-right:120px">VOLUME 1</span>
+			</td>
+						<td>
+<div id ='volume_1' type="text" value="1" /></div>	
+				</td>	
+			
+			<td>
+				<input id ='delete_1' type="button" value="delete volume 1" />		
+			</td>
+				<div id ='volume_1' type="text" value="1" /></div>		
+		</tr>
+		</table>
+
+		<div id='content'></div>
+	</form>
+<script type="text/javascript">
+//delete camera
+$('form#volume_settings input').click(function(){
+	var arr = "";
+	console.log(this.id);
+   	if(this.id=='single') {
+  		var vol=$("select#volume").val();
+		var disk=$("select#disk").val();
+  		arr="disk"+disk+"="+vol+"&"+"type=single";
+   		console.log(this.id,vol,disk);
+   		camera_create(arr);
+   	}
+   	else if(this.id=='raid_1'){
+		arr="disk1=0&disk2=0&type=raid_1";
+		camera_create(arr);
+   	}
+   	else if(this.id=='delete_0'){
+   		arr='volume=0';
+   		volume_delete(arr);
+   	}	
+   	else if(this.id=='delete_1'){
+   		arr='volume=1';
+   		volume_delete(arr);
+   	}
+	
+ });
+  	function camera_create(arr){
+       /* $.fixture("/cgi-bin/admin/volume_create.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/volume_create.cgi",
+            dataType: 'text',
+            data: arr, //from click event
+            success: function(data, textStatus, xhr) {
+            	console.log(data)
+                $('div#volume_settings div#content').text(data+'---> status: '+xhr.status);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    } //end camera_create
+    function volume_delete(arr){
+       /* $.fixture("/cgi-bin/admin/volume_delete.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/volume_delete.cgi",
+            dataType: 'text',
+            data: arr, //from click event
+            success: function(data, textStatus, xhr) {
+            	console.log(data)
+                $('div#volume_settings div#content').text(data+'---> status: '+xhr.status);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    } //end camera_delete
+
+</script>

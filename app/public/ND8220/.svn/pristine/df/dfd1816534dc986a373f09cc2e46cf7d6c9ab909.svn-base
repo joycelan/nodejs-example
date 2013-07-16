@@ -1,0 +1,199 @@
+(function(){
+    
+    var simpleParamParser = function(lines){
+    var settings = {};
+    lines.split("\n").forEach(function(l, i){
+        if(!l) return;
+        //expect(l).to.contain('=');
+        l = l.split("=");
+        console.log(l)
+        settings[l[0]] = l[1].slice(1, -1);
+    });
+    return settings;
+};
+
+    function success(){return 'success';}
+    function error(){return 'error';}
+
+
+  $('button#add_camera').click(function(){
+    var arr="";
+    $("form#add_camera select").each(function(i,v){
+
+    var id= $(this).id;
+    var element = $(this).children('option:selected');
+    if(element.val()!=-1)
+    arr=arr+ 'camera'+'='+i+'&'+'ip'+"="+element.attr('ip')+'&'+'username'+"="+element.attr('username')+'&'+'passwd'+"="+element.attr('passwd')+'&';
+ });
+    arr=arr.slice(0,-1);
+        camera_update(arr);
+    });
+    function camera_update(arr){
+       /* $.fixture("/cgi-bin/admin/camera_update.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/camera_update.cgi",
+            dataType: 'text',
+            data: arr, //from click event
+            success: function(data, textStatus, xhr) {
+            console.log(data);
+                $('div#add_camera div#content').text(data+'---> status: '+xhr.status);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    }
+
+
+
+    $('button#get_add_camera').click(function(){
+        var arr="";
+        for (var i = 0; i <= 3; i++) {
+            var header='camera_c'+i;
+            var ip=header+"_"+"ip";
+            var port=header+"_"+"port";
+            var username=header+"_"+"username";
+            var channel=header+"_"+"channel";
+            if(i < 3) arr=arr+(ip+'&'+port+'&'+username+'&'+channel+'&');
+            else arr=arr+(ip+'&'+port+'&'+username+'&'+channel);
+        };
+        get_add_camera_cgi(arr);
+    });
+    function get_add_camera_cgi(arr){
+      /*  $.fixture("/cgi-bin/admin/getparam.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/getparam.cgi",
+            dataType: 'text',
+            data: arr, //from click event
+            success: function(data, textStatus, xhr) {
+                var settings= simpleParamParser(data);
+                console.log(settings);
+                $('div#add_camera div#content').text(data+'---> status: '+xhr.status);
+                $('form#add_camera select').each(function (i,v) {
+                var camera_ip = 'camera_c'+i+'_ip';
+                $(this).children().each(function(){
+                    if ($(this).attr('ip') == settings[camera_ip]){
+                    //jQuery給法
+                $(this).attr("selected","true"); //或是給selected也可
+ 
+                //javascript給法
+                this.selected = true;   
+        }
+});
+                })
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    }
+
+
+    $('button#recording_settings').click(function(){
+        var arr="";
+        var camera = $('select#select_camera').val();
+        $.each($('div#recording_settings form select'),function(i,v){  
+            var new_name = camera+'_'+ $(this).attr('name');
+            arr=arr+(new_name+'='+v.value+'&');
+        });
+        var new_name = camera + '_' + $('div#recording_settings form input').attr('name');
+        arr=arr+(new_name + '=' + $('div#recording_settings form input').val());
+
+        set_recording_settings_cgi(arr);
+    });
+    function set_recording_settings_cgi(arr){
+      /*  $.fixture("/cgi-bin/admin/setparam.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/setparam.cgi",
+            dataType: 'text',
+            data: arr,
+            success: function(data, textStatus, xhr) {
+                $('div#recording_settings div#content').text(data+'---> status: '+xhr.status);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    } //end set_recording_settings_cgi
+
+
+    $('button#get_recording_settings').click(function(){
+        var arr="";
+        for (var i = 0; i <= 3; i++) {
+            var camera = "camera_c"+i+'_recording';
+            var preevent = camera+"_preevent";
+            var postevent = camera+"_postevent";
+            var reserved_days = camera+"_reserved_days";
+            if(i < 3) arr=arr+(preevent +'&'+postevent+'&'+reserved_days+'&');
+            else arr=arr+(preevent +'&'+postevent+'&'+reserved_days);;
+        }
+        console.log(arr);
+        get_recording_settings_cgi(arr);
+    });
+    function get_recording_settings_cgi(arr){
+      /*  $.fixture("/cgi-bin/admin/getparam.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/getparam.cgi",
+            dataType: 'text',
+            data: arr,
+            success: function(data, textStatus, xhr) {
+                $('div#recording_settings div#content').text(data+'---> status: '+xhr.status);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    }
+
+    $('button#get_volume_settings').click(function(){
+        var arr="";
+        for (var i = 0; i <= 1; i++) {
+            var header='storage_volume_v'+i;
+            var status=header+"_"+"status";
+            var type=header+"_"+"type";
+            var disk=header+"_"+"disk";
+            var totalsize=header+"_"+"totalsize";
+            var availablesize=header+"_"+"availablesize";
+            if(i < 1) arr=arr+(status+'&'+ type+'&'+disk+'&'+totalsize+'&');
+            else arr=arr+(status+'&'+ type+'&'+disk+'&'+totalsize);
+        };
+        get_volume_settings(arr);
+    });
+    function get_volume_settings(arr){
+       /* $.fixture("/cgi-bin/admin/getparam.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            url: "/cgi-bin/admin/getparam.cgi",
+            dataType: 'text',
+            data: arr, //from click event
+            success: function(data, textStatus, xhr) {
+                var settings= simpleParamParser(data);
+                console.log(settings);
+                $('div#volume_setting div#content').text(data+'---> status: '+xhr.status);
+                $('form#volume_setting div#volume_0').text(
+                    settings['storage_volume_v0_status']+"--"+settings['storage_volume_v0_type']+"--"
+                    +settings['storage_volume_v0_disk']+"--"+settings['storage_volume_v0_totalsize']+"--"
+                    +settings['storage_volume_v0_availablesize']
+                );
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+            
+    }
+})();

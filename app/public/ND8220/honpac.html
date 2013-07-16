@@ -1,0 +1,55 @@
+<div class='sub_header' style="color: #BBBD1F;  font-size: 30px;  text-decoration: underline;  font-family: verdana,helvetica,arial,sans-serif;">Honpac</div>
+<form id='honpac' method="post" >
+ <li>
+      <label  style="min-width: 100px; display: inline-block; color:black;" for="title">Title</label>
+      <input  style="width: 150px;" name="title"  id="title" type="text" />
+  </li>
+	<li>
+      <label  style="min-width: 100px; display: inline-block; color:black;" for="name">Name</label>
+      <input  style="width: 150px;" name="name"  id="name" type="text" />
+  </li>
+  <li>
+      <label  style="min-width: 100px; display: inline-block; color:black;" for="email">E-mail</label>
+      <input  style="width: 150px;" name="email"  id="email" type="text" />
+  </li>
+  <li>
+      <label  style="min-width: 100px; display: inline-block; color:black;" for="data">Data</label>
+      <input  style="width: 150px; height: 100px" name="data"  id="data" type="text" />
+  </li>
+
+  <input type='button' id ='honpac' value='Honpac'></input>
+   <div id ='content'></div>
+	</form>
+   
+    <script src="jquery-1.9.1.min.js"></script>
+  <script src="jquery.fixture.js"></script>
+<script type="text/javascript">
+
+$('form#honpac input#honpac').click(function(){
+  var arr =[];
+  arr['title']=$('input#title').val();
+  arr['email']=$('input#email').val();
+  arr['name']=$('input#name').val();
+  arr['data']=$('input#data').val();
+  post(arr);
+ });
+  	function post(arr){
+        console.log(arr);
+       /* $.fixture("/cgi-bin/admin/honpac.cgi", function(originalSettings, settings, headers){
+            console.log('sssss',originalSettings)
+            return  [200, "success",originalSettings.data, {} ]
+        });*/
+        return $.ajax({ 
+            type:'POST',
+            url: '/cgi-bin/admin/honpac.cgi',
+            data: $("form#honpac").serialize(),
+            success: function(data, textStatus, xhr) {
+                $('div#honpac div#content').text(data+'---> status: '+xhr.status);
+            },
+            complete: function(xhr, textStatus) {
+                console.log(xhr.status);
+            }
+        });
+    } //end volume_create
+
+</script>

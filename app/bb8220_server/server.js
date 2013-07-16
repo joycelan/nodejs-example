@@ -1,0 +1,158 @@
+
+var settings = {
+	security_user_i0_pass: "",
+	system_restore: "0",
+	system_reset: "0",
+	system_timezoneindex: "",
+	system_daylight_enable: '0',
+	system_ntp: "",
+	system_updateinterval: '0',
+	systeminfo_serialnumber: '',
+	systeminfo_firmwareversion: '',
+	systeminfo_extendedmodelname: '',
+	network_ipaddress: '',
+	network_subnet: '',
+	network_router: '',
+	network_dns1: '',
+	network_dns2: '',
+	network_resetip: '1',
+	networkhttp_port: '80',
+	networkhttp_alternateport: '8080',
+	networkhttp_authmode: 'basic',
+	networkhttps_port: '443',
+	networkrtsp_port: '554',
+	networkrtsp_authmode: 'disable',
+	upnpportforwarding_enable: '0',
+	upnpportforwarding_upnpnatstatus: '0',
+	ddns_enable: '0',
+	ddns_Alarm_passwordkey: '',
+	ddns_update: '/api/video_dns.asp',
+	di_i_normalstate: 'high',
+	di_i_realstate: '0',
+	di_i_activestate: 'rising',
+	di_i_status: 'high',
+	camera_c0_ip: '',
+	camera_c0_port: '80',
+	camera_c0_username: '',
+	camera_c0_passwd: '',
+	camera_c0_mac: '',
+	camera_c0_channel: '',
+	camera_c0_recording_streamindex: '0',
+	camera_c0_recording_type: 'none',
+	camera_c0_recording_preevent: '5',
+	camera_c0_recording_postevent: '20',
+	camera_c0_recording_audio: '1',
+	camera_c0_recording_reserved_days: '7',
+	camera_c0_recording_schedule_weekday: '127',
+	camera_c0_recording_schedule_begintime: '00:00',
+	camera_c0_recording_schedule_endtime: '24:00',
+	camera_c1_ip: '',
+	camera_c1_port: '80',
+	camera_c1_username: '',
+	camera_c1_passwd: '',
+	camera_c1_mac: '',
+	camera_c1_channel: '',
+	camera_c1_recording_streamindex: '0',
+	camera_c1_recording_type: 'none',
+	camera_c1_recording_preevent: '5',
+	camera_c1_recording_postevent: '20',
+	camera_c1_recording_audio: '1',
+	camera_c1_recording_reserved_days: '7',
+	camera_c1_recording_schedule_weekday: '127',
+	camera_c1_recording_schedule_begintime: '00:00',
+	camera_c1_recording_schedule_endtime: '24:00',
+	camera_c2_ip: '',
+	camera_c2_port: '80',
+	camera_c2_username: '',
+	camera_c2_passwd: '',
+	camera_c2_mac: '',
+	camera_c2_channel: '',
+	camera_c2_recording_streamindex: '0',
+	camera_c2_recording_type: 'none',
+	camera_c2_recording_preevent: '5',
+	camera_c2_recording_postevent: '20',
+	camera_c2_recording_audio: '1',
+	camera_c2_recording_reserved_days: '7',
+	camera_c2_recording_schedule_weekday: '127',
+	camera_c2_recording_schedule_begintime: '00:00',
+	camera_c2_recording_schedule_endtime: '24:00',
+	camera_c3_ip: '',
+	camera_c3_port: '80',
+	camera_c3_username: '',
+	camera_c3_passwd: '',
+	camera_c3_mac: '',
+	camera_c3_channel: '',
+	camera_c3_recording_streamindex: '0',
+	camera_c3_recording_type: 'none',
+	camera_c3_recording_preevent: '5',
+	camera_c3_recording_postevent: '20',
+	camera_c3_recording_audio: '1',
+	camera_c3_recording_reserved_days: '7',
+	camera_c3_recording_schedule_weekday: '127',
+	camera_c3_recording_schedule_begintime: '00:00',
+	camera_c3_recording_schedule_endtime: '24:00',
+	storage_Number: 'ndisk',
+	storage_disk_d0_status: '',
+	storage_disk_d0_Model: '',
+	storage_disk_d0_modelfamily: '',
+	storage_disk_d0_serialnumber: '',
+	storage_disk_d0_firmwareversion: '',
+	storage_disk_d0_capacity: '',
+	storage_disk_d0_lastcheck_type: '',
+	storage_disk_d0_lastcheck_time: '',
+	storage_disk_d0_lastcheck_result: '',
+	storage_disk_d0_smart_result: '',
+	storage_disk_d1_status: '',
+	storage_disk_d1_Model: '',
+	storage_disk_d1_modelfamily: '',
+	storage_disk_d1_serialnumber: '',
+	storage_disk_d1_firmwareversion: '',
+	storage_disk_d1_capacity: '',
+	storage_disk_d1_lastcheck_type: '',
+	storage_disk_d1_lastcheck_time: '',
+	storage_disk_d1_lastcheck_result: '',
+	storage_disk_d1_smart_result: '',
+	storage_volume_v0_status: '',
+	storage_volume_v0_type: '',
+	storage_volume_v0_disk: '',
+	storage_volume_v0_totalsize: '',
+	storage_volume_v0_availablesize: '',
+	storage_volume_v1_status: '',
+	storage_volume_v1_type: '',
+	storage_volume_v1_disk: '',
+	storage_volume_v1_totalsize: '',
+	storage_volume_v1_availablesize: '',
+	honpac_name: '',
+	honpac_data: '',
+	honpac_email: '',
+	honpac_title: '',
+};
+
+var server = { };
+
+server.getParam = function getParam(key){
+	if (!key) {
+		var result = [];
+		for(var k in settings) {
+			result.push(getParam(k));
+		}
+		return result.join("");
+	}
+	key = key.toLowerCase();
+	if (key in settings) {
+		return key + "='" + settings[key] + "'\n";
+	}
+	return "";
+};
+
+server.setParam = function setParam(key, value){
+	key = key.toLowerCase();
+	if (key in settings) {
+		settings[key] = value;
+		return "Set " + key + " ok!\n";
+	}
+ 
+	return "";
+};
+
+module.exports = server;
